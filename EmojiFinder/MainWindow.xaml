@@ -1,0 +1,76 @@
+﻿<Window
+    x:Class="EmojiFinder.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+    xmlns:local="clr-namespace:EmojiFinder"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+    Title="Emoji Finder"
+    Width="400"
+    Height="300"
+    Topmost="True"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <RoutedCommand x:Key="ClearInput" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{StaticResource ClearInput}" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding
+            CanExecute="CommandBinding_ClearInput_CanExecute"
+            Command="{StaticResource ClearInput}"
+            Executed="CommandBinding_ClearInput_Executed" />
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox
+            x:Name="tbSearch"
+            Margin="3"
+            Padding="5"
+            FontSize="14"
+            TextChanged="tbSearch_TextChanged" />
+        <wp:VirtualizingItemsControl
+            x:Name="lc"
+            Grid.Row="1"
+            Margin="3,0,3,3"
+            VirtualizingPanel.CacheLengthUnit="Item"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.ScrollUnit="Item">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <wp:VirtualizingWrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:EmojItem}">
+                    <emoji:TextBlock
+                        Grid.Row="1"
+                        Margin="10"
+                        Cursor="Hand"
+                        FontSize="20"
+                        MouseLeftButtonDown="Copy"
+                        Text="{Binding Emoji}"
+                        ToolTip="{Binding Keyword}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </wp:VirtualizingItemsControl>
+        <Border
+            x:Name="borderMask"
+            Grid.RowSpan="2"
+            Background="#5000">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="25"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="Loading..." />
+        </Border>
+    </Grid>
+</Window>
