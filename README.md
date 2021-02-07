@@ -1,4 +1,5 @@
 EmojiFinder
+
 A wpf application to find emoji on PC.
 Click on the emoji to copy it.
 
