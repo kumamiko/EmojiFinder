@@ -14,6 +14,21 @@
     mc:Ignorable="d">
     <Window.Resources>
         <RoutedCommand x:Key="ClearInput" />
+        <BackEase x:Key="SineEaseFunction" />
+        <Storyboard x:Key="StoryMsg">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="gridMsg" Storyboard.TargetProperty="Margin">
+                <EasingThicknessKeyFrame
+                    EasingFunction="{StaticResource SineEaseFunction}"
+                    KeyTime="0:0:0"
+                    Value="0 -50 0 0" />
+                <EasingThicknessKeyFrame KeyTime="0:0:0.3" Value="0 10 0 0" />
+                <EasingThicknessKeyFrame KeyTime="0:0:1.5" Value="0 10 0 0" />
+                <EasingThicknessKeyFrame
+                    EasingFunction="{StaticResource SineEaseFunction}"
+                    KeyTime="0:0:2"
+                    Value="0 -50 0 0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{StaticResource ClearInput}" />
@@ -28,6 +43,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBox
             x:Name="tbSearch"
@@ -62,7 +78,7 @@
         </wp:VirtualizingItemsControl>
         <Border
             x:Name="borderMask"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Background="#5000">
             <TextBlock
                 HorizontalAlignment="Center"
@@ -72,5 +88,31 @@
                 Foreground="White"
                 Text="Loading..." />
         </Border>
+        <Grid
+            x:Name="gridMsg"
+            Grid.RowSpan="2"
+            Margin="0,-50,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <Border Background="#2cd879" CornerRadius="3">
+                <Border.Effect>
+                    <DropShadowEffect
+                        BlurRadius="10"
+                        Direction="270"
+                        Opacity="0.5"
+                        ShadowDepth="2"
+                        Color="#2cd879" />
+                </Border.Effect>
+            </Border>
+            <emoji:TextBlock
+                x:Name="txtMsg"
+                Margin="10,5"
+                FontSize="14"
+                Foreground="White"
+                Text="已复制" />
+        </Grid>
+        <WrapPanel Grid.Row="2" Margin="5">
+            <CheckBox Content="置顶" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Topmost}" />
+        </WrapPanel>
     </Grid>
 </Window>

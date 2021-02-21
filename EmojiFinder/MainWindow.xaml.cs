@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace EmojiFinder
 {
@@ -57,7 +58,8 @@ namespace EmojiFinder
                 try
                 {
                     Clipboard.SetText(item.Emoji);
-                    MessageBox.Show($"Copy {item.Emoji}");
+                    txtMsg.Text = $"{item.Emoji} 已复制";
+                    (this.FindResource("StoryMsg") as Storyboard).Begin();
                 }
                 catch (Exception ex)
                 {
